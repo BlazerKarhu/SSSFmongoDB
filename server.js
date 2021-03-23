@@ -11,7 +11,7 @@ app.use('/cat', require('./routes'));
 
 app.get('/', (req, res) => {
   console.log('get /');
-  res.send('You can get cats from here');
+  res.send('You can get cats from /cat');
 });
 
 db.on('connected', () => {
