@@ -18,6 +18,7 @@
   "homepage": "https://github.com/BlazerKarhu/SSSFmongoDB#readme",
   "description": "",
   "dependencies": {
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
   }
 }
