@@ -2,19 +2,30 @@
 // chargeController
 const chargeModel = require('../models/chargeModel');
 
-const {stations} = chargeModel;
+const {stationmodel, connectiontypemodel} = chargeModel;
 
 const charge_station_list_get = async (req, res) => {
   try {
-    res.send(await stations.find());
+    console.log('Chargemodel ', chargeModel);
+    console.log('station', stationmodel);
+    const stations = await stationmodel.find();
+    console.log('stations');
+    res.send(stations);
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
-
+const connectiontype_get = async (req, res) => {
+  try {
+    const connectiontype = await connectiontypemodel.find();
+    res.send(connectiontype);
+  } catch (error) {
+    console.error(error);
+  }
+};
 const charge_station_get = (req, res) => {
   const id = req.params.id;
-  const station = stations.filter((station) => station.id === id).pop();
+  const station = stationmodel.filter((station) => station.id === id).pop();
   res.json(station);
 };
 
@@ -28,4 +39,5 @@ module.exports = {
   charge_station_list_get,
   charge_station_get,
   charge_station_create_post,
+  connectiontype_get,
 };

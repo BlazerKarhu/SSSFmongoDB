@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const stationSchema = new Schema({
-  _id: Schema.Types.ObjectId,
   location: {
     type: {
       type: String,
@@ -15,7 +14,7 @@ const stationSchema = new Schema({
       required: true,
     },
   },
-  connections: [{type: Schema.Types.ObjectId, ref: 'connectionSchema'}],
+  connections: [{type: Schema.Types.ObjectId, ref: 'Connection'}],
   title: String,
   town: String,
   addressLinel: String,
@@ -24,33 +23,39 @@ const stationSchema = new Schema({
 });
 
 const connectionSchema = new Schema({
-  _id: {type: Schema.Types.ObjectId, ref: 'stationSchema'},
-  connectionTypeID: {type: Schema.Types.ObjectId, ref: 'connectionTypeSchema'},
-  levelID: {type: Schema.Types.ObjectId, ref: 'levelsSchema'},
-  currentTypeSchemaID: {type: Schema.Types.ObjectId, ref: 'currentTypeSchema'},
+  connectionTypeID: {type: Schema.Types.ObjectId, ref: 'Connection'},
+  levelID: {type: Schema.Types.ObjectId, ref: 'Levels'},
+  currentTypeSchemaID: {type: Schema.Types.ObjectId, ref: 'CurrentType'},
   quantity: Number,
 });
 
 const connectionTypeSchema = new Schema({
-  _id: {type: Schema.Types.ObjectId, ref: 'stationSchema'},
   formalName: String,
   title: String,
 });
 
 const currentTypeSchema = new Schema({
-  _id: Schema.Types.ObjectId,
   description: String,
   title: String,
 });
 
 const levelsSchema = new Schema({
-  _id: Schema.Types.ObjectId,
   comment: String,
   isFastChargeable: Boolean,
   title: String,
 });
-module.exports = mongoose.model('Station', stationSchema);
-module.exports = mongoose.model('Connection', connectionSchema);
-module.exports = mongoose.model('ConnectionType', connectionTypeSchema);
-module.exports = mongoose.model('CurrentType', currentTypeSchema);
-module.exports = mongoose.model('Levels', levelsSchema);
+const stationmodel = mongoose.model('Station', stationSchema);
+const connectionmodel = mongoose.model('Connection', connectionSchema);
+const connectiontypemodel = mongoose.model(
+  'ConnectionType',
+  connectionTypeSchema
+);
+const currenttypemodel = mongoose.model('CurrentType', currentTypeSchema);
+const levelsmodel = mongoose.model('Levels', levelsSchema);
+module.exports = {
+  stationmodel,
+  connectionmodel,
+  connectiontypemodel,
+  currenttypemodel,
+  levelsmodel,
+};
