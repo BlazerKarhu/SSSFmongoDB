@@ -2,6 +2,7 @@
 const stationModel = require('../models/station');
 const connectionModel = require('../models/connection');
 const rectangleBounds = require('../utils/rectangleBounds');
+const {Connection} = require('mongoose');
 
 const station_list_get = async (req, res) => {
   console.log('test');
@@ -105,8 +106,19 @@ const station_post = async (req, res) => {
   }
 };
 
+const station_delete = async (req, res) => {
+  const stat = await Station.findById(req.params.id);
+  const delResult = await Promise.all(
+    stat.Connections.map(async (conn) => {
+      return Connections.findByIdAndDelete(delResult);
+    })
+  );
+  res.status(200).json(Station.findByIdAndDelete(req.params.id));
+};
+
 module.exports = {
   station_list_get,
   station_get,
   station_post,
+  station_delete,
 };
