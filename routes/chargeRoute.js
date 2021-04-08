@@ -1,5 +1,5 @@
 'use strict';
-// catRoute
+// chargeRoute
 const express = require('express');
 const {
   charge_station_list_get,
@@ -7,11 +7,12 @@ const {
   charge_station_create_post,
   connectiontype_get,
 } = require('../controllers/chargeController');
+const {station_list_get} = require('../controllers/stationController');
 const router = express.Router();
 const multer = require('multer');
 const upload = multer({dest: './uploads/'});
 
-router.get('/', charge_station_list_get);
+router.get('/', station_list_get);
 router.get('/con', connectiontype_get);
 
 router.get('/:id', charge_station_get);
