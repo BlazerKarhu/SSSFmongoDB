@@ -4,7 +4,9 @@ const connectionModel = require('../models/connection');
 const rectangleBounds = require('../utils/rectangleBounds');
 
 const station_list_get = async (req, res) => {
+  console.log('test');
   try {
+    console.log('test');
     const topRight = req.query.topRight;
     const bottomLeft = req.query.bottomLeft;
     let start = 0;
