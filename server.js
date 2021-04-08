@@ -12,7 +12,7 @@ const connectionTypeRoute = require('./routes/connectionTypeRoute');
 const currentTypeRoute = require('./routes/currentTypeRoute');
 const levelsRoute = require('./routes/levelsRoute');
 
-app.use(express.json);
+app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
 //app.use('/cat', require('./routes/routes'));
@@ -25,8 +25,9 @@ app.use('/level', levelsRoute);
 
 app.get('/', (req, res) => {
   console.log('get /');
-  res.send('You can get cats from /cat');
-  res.send('You can get chargestations from /charge');
+  res.send(
+    'You can get cats from /cat <br> You can get chargestations from /charge'
+  );
 });
 
 db.on('connected', () => {
