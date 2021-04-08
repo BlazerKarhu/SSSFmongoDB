@@ -2,7 +2,7 @@
 // chargeRoute
 const express = require('express');
 const {
-  charge_station_list_get,
+  station_list_get,
   charge_station_get,
   charge_station_create_post,
   connectiontype_get,

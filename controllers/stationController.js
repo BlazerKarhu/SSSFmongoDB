@@ -53,7 +53,7 @@ const station_list_get = async (req, res) => {
         });
     }
     console.log('stations');
-    res.send(stations);
+    res.json(stations);
   } catch (error) {
     res.status(500).json({message: error.message});
   }
@@ -75,7 +75,36 @@ const station_get = async (req, res) => {
   }
 };
 
+const station_post = async (req, res) => {
+  try {
+    console.log('station_post', req.body);
+    const connections = req.body.Connections;
+    const newConnections = await Promise.all(
+      connections.map(async (conn) => {
+        let newConnection = new connectionModel(conn);
+        const result = await newConnection.save();
+        return result._id;
+      })
+    );
+    console.log('nc', newConnections);
+
+    const station = req.body.Station;
+    station.Connections = newConnections;
+    station.Location.type = 'Point';
+
+    console.log('st', station);
+    const newStation = new stationModel(station);
+    console.log('ns', newStation);
+    const rslt = await newStation.save();
+    console.log(rslt);
+    res.satus(200).json(rslt);
+  } catch (error) {
+    res.status(500).json({message: error.message});
+  }
+};
+
 module.exports = {
   station_list_get,
   station_get,
+  station_post,
 };
