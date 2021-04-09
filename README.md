@@ -5,7 +5,7 @@ Stations List GET
 exampe
 /station
 
-Stations list with limit and start GET Apparently not working
+Stations list with limit and start GET
 example
 /station?start=10&limit=4
 
