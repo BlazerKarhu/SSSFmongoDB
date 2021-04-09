@@ -11,7 +11,7 @@ const station_list_get = async (req, res) => {
     if (req.query.start) start = +req.query.start;
 
     let limit = 10;
-    if (req.query.limit) start = +req.query.limit;
+    if (req.query.limit) limit = +req.query.limit;
     //test with limit
     //http://localhost:3000/station?start=10&limit=4
 
