@@ -26,7 +26,7 @@ app.use('/level', levelsRoute);
 app.get('/', (req, res) => {
   console.log('get /');
   res.send(
-    'You can get cats from /cat <br> You can get chargestations from /charge'
+    'You can get cats from /cat <br> You can get chargestations from /station'
   );
 });
 
