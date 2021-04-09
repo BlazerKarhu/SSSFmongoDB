@@ -1,13 +1,10 @@
 'use strict';
 const stationModel = require('../models/station');
 const connectionModel = require('../models/connection');
-const rectangleBounds = require('../utils/rectangleBounds');
-const {Connection} = require('mongoose');
+const {rectangleBounds} = require('../utils/rectangleBounds');
 
 const station_list_get = async (req, res) => {
-  console.log('test');
   try {
-    console.log('test');
     const topRight = req.query.topRight;
     const bottomLeft = req.query.bottomLeft;
     let start = 0;
@@ -100,17 +97,57 @@ const station_post = async (req, res) => {
     console.log('ns', newStation);
     const rslt = await newStation.save();
     console.log(rslt);
-    res.satus(200).json(rslt);
+    res.status(200).json(rslt);
   } catch (error) {
     res.status(500).json({message: error.message});
   }
 };
 
+const station_edit = async (req, res) => {
+  try {
+    console.log('station_post', req.body);
+    const connections = req.body.Connections;
+    const updateConnections = await Promise.all(
+      connections.map(async (conn) => {
+        let newConnection = connectionModel(conn);
+        const result = await newConnection.updateOne();
+        return result._id;
+      })
+    );
+    console.log('uc', updateConnections);
+
+    const station = req.body.station;
+    station.Connections = updateConnections;
+    station.Location.type = 'Point';
+
+    console.log('st', station);
+    const newStation = stationModel(station);
+    console.log('ns', newStation);
+    const rslt = await newStation.updateOne();
+    console.log(rslt);
+    res.status(200).json(rslt);
+  } catch (error) {
+    res.status(500).json({message: error.message});
+  }
+};
+const station_edit2 = async (req, res) => {
+  try {
+    const stat = await stationModel.findById(req.params.id);
+    const upResult = await Promise.all(
+      stat.Connections.map(async (conn) => {
+        return connectionModel.findByIdAndUpdate(upResult);
+      })
+    );
+    res.status(200).json(stationModel.findByIdAndUpdate(req.params.id));
+  } catch (error) {
+    res.status(500).json({message: error.message});
+  }
+};
 const station_delete = async (req, res) => {
   const stat = await Station.findById(req.params.id);
   const delResult = await Promise.all(
     stat.Connections.map(async (conn) => {
-      return Connections.findByIdAndDelete(delResult);
+      return connectionModel.findByIdAndDelete(delResult);
     })
   );
   res.status(200).json(Station.findByIdAndDelete(req.params.id));
@@ -120,5 +157,7 @@ module.exports = {
   station_list_get,
   station_get,
   station_post,
+  station_edit,
+  station_edit2,
   station_delete,
 };
